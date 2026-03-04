@@ -19,7 +19,6 @@
    HERO
 ================================================ */
 .srv-hero {
-  min-height: 100vh;
   padding-top: 70px;
   background: linear-gradient(135deg, #0f1c4d 0%, #1e3a8a 50%, #2c3e7a 100%);
   position: relative;
@@ -606,7 +605,7 @@
   .srv-hero-container {
     grid-template-columns: 1fr;
     gap: 36px;
-    padding: 60px 20px 50px;
+    padding: 40px 20px 40px;
     text-align: center;
   }
   .srv-badge          { margin: 0 auto; }
@@ -623,7 +622,7 @@
 
 /* Small phones */
 @media (max-width: 420px) {
-  .srv-hero-content h1      { font-size: 2rem; }
+  .srv-hero-content h1      { font-size: 28px; margin-top:15px; }
   .mob-acc-sub              { display: none; }
   .mob-service-item ul      { grid-template-columns: 1fr; }
 }
