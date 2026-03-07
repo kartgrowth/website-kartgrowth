@@ -105,7 +105,6 @@
    HERO
 ================================================ */
 .abt-hero {
-  min-height: 70vh;
   padding-top: 70px;
   background: linear-gradient(135deg, #0f1c4d 0%, #1e3a8a 50%, #2c3e7a 100%);
   position: relative;
