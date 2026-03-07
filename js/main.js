@@ -3,6 +3,7 @@
    Loads header + footer once from /components/
    and handles all interactions
 =================================================== */
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKaAU2fsJXcX7eB38yGQpvkapLZ8HDoeSgb7p1sDzB5mvFoelnCzY8t-m9WchelXp5/exec';
 
 (function () {
 
@@ -85,30 +86,45 @@
     }
   }
 
-  // ── 4. FORM HANDLER ───────────────────────────────
-  function initForm() {
-    const form = document.getElementById('hero-form');
-    if (!form) return;
+  // ── 4. FORM HANDLER (Updated for Google Sheets) ───────────────────────────────
+function initForm() {
+  const form = document.getElementById('hero-form');
+  if (!form) return;
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const btn = form.querySelector('.btn-submit');
-      const originalText = btn.textContent;
-      btn.textContent = 'Sending...';
-      btn.disabled = true;
-      btn.style.opacity = '0.8';
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const btn = form.querySelector('.btn-submit');
+    const originalText = btn.textContent;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    btn.style.opacity = '0.8';
 
+    // Package the form data
+    const formData = new FormData(form);
+    formData.append('FormType', 'Homepage'); // Tags this lead as Homepage
+
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      body: new URLSearchParams(formData)
+    })
+    .then(res => res.json())
+    .then(data => {
+      btn.textContent = '✅ Submitted!';
+      form.reset();
       setTimeout(function () {
-        btn.textContent = '✅ Submitted!';
-        form.reset();
-        setTimeout(function () {
-          btn.textContent = originalText;
-          btn.disabled = false;
-          btn.style.opacity = '1';
-        }, 3000);
-      }, 1500);
+        btn.textContent = originalText;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      }, 3000);
+    })
+    .catch(err => {
+      console.error('Error:', err);
+      btn.textContent = '❌ Error. Try Again.';
+      btn.disabled = false;
+      btn.style.opacity = '1';
     });
-  }
+  });
+ }
 
   // ── 5. BOOT ───────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
@@ -169,11 +185,17 @@ function toggleAccordion(id) {
 }
 
 // ── CONTACT FORM ─────────────────────────────────
-function submitContactForm() {
+// ── CONTACT FORM (Updated for Google Sheets) ─────────────────────────────────
+window.submitContactForm = function() {
   const name    = document.getElementById('cf-name');
   const phone   = document.getElementById('cf-phone');
   const email   = document.getElementById('cf-email');
+  const brand   = document.getElementById('cf-brand');
+  const revenue = document.getElementById('cf-revenue');
+  const platform= document.getElementById('cf-platform');
+  const message = document.getElementById('cf-message');
 
+  // Validation
   if (!name || !name.value.trim()) { name.focus(); name.style.borderColor = '#e74c3c'; return; }
   if (!phone || !phone.value.trim()) { phone.focus(); phone.style.borderColor = '#e74c3c'; return; }
   if (!email || !email.value.trim()) { email.focus(); email.style.borderColor = '#e74c3c'; return; }
@@ -181,13 +203,37 @@ function submitContactForm() {
   const btn = document.querySelector('.form-submit');
   if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
 
-  setTimeout(function () {
+  // Manually build the payload since this isn't wrapped in a standard <form> tag
+  const payload = new URLSearchParams();
+  payload.append('FormType', 'ContactPage'); // Tags this lead as Contact Page
+  payload.append('Name', name.value);
+  payload.append('Phone', phone.value);
+  payload.append('Email', email.value);
+  payload.append('Brand', brand ? brand.value : '');
+  payload.append('Revenue', revenue ? revenue.value : '');
+  payload.append('Platform', platform ? platform.value : '');
+  payload.append('Message', message ? message.value : '');
+
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    body: payload
+  })
+  .then(res => res.json())
+  .then(data => {
     const formArea = document.getElementById('contact-form-area');
     const success  = document.getElementById('form-success');
     if (formArea) formArea.style.display = 'none';
     if (success)  success.style.display  = 'block';
-  }, 1400);
+  })
+  .catch(err => {
+    console.error('Error:', err);
+    if (btn) { 
+        btn.textContent = 'Error! Try Again'; 
+        btn.disabled = false; 
+    }
+  });
 }
+
 // Footer accordion toggle
 window.footerToggle = function(trigger) {
   if (window.innerWidth > 768) return;
