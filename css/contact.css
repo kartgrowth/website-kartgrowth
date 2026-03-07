@@ -256,6 +256,10 @@
 .detail-value a:hover { color: var(--primary); }
 
 .contact-socials { display: flex; gap: 12px; }
+.contact-socials img {
+    width: 20px;
+    height: 20px;
+}
 .contact-social-btn {
   width: 42px; height: 42px;
   border-radius: 10px;

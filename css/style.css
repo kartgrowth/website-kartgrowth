@@ -266,6 +266,10 @@ img { max-width: 100%; display: block; }
   display: flex;
   gap: 10px;
 }
+.social-links img {
+    width: 20px;
+    height: 20px;
+}
 .social-link {
   width: 38px; height: 38px;
   background: rgba(255,255,255,0.08);

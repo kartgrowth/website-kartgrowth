@@ -129,7 +129,7 @@
   position: relative;
   z-index: 1;
   padding: 60px 24px 80px;
-  max-width: 760px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 .abt-hero-inner .abt-badge { margin: 0 auto 18px; }
@@ -607,5 +607,15 @@
   .abt-why-badge span { font-size: 1.4rem; }
 
   .abt-container  { padding: 0 16px; }
-  .abt-hero-inner { padding: 50px 16px 60px; }
+  .abt-hero-inner { padding: 40px 20px 40px; }
+}
+/* Small phones */
+@media (max-width: 480px) {
+.abt-hero-inner h1{
+    font-size: 28px;
+    margin-top: 15px;
+ }
+ .abt-hero-inner .abt-badge{
+    margin: 0 auto;
+ }
 }
