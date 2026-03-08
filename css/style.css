@@ -44,11 +44,12 @@ img { max-width: 100%; display: block; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(255,255,255,0.97);
+  background: #fefefe;
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 20px rgba(0,0,0,0.08);
   height: 70px;
   transition: height 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
 }
 
 .header-container {
@@ -68,7 +69,9 @@ img { max-width: 100%; display: block; }
   letter-spacing: 1px;
 }
 .logo-accent { color: var(--primary); }
-
+.header-container a.logo img{
+    width: 200px;
+}
 /* Nav */
 .nav { display: flex; gap: 40px; }
 
