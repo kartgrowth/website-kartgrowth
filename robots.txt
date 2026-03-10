@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Apne sitemap ka link yahan do:
 Sitemap: https://kartgrowth.com/sitemap.xml
